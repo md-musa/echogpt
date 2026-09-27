@@ -8,6 +8,7 @@ import { SignUpAuthDto } from './dto/signup-auth.dto';
 import { ConfigService } from '@nestjs/config';
 import { SignInAuthDto } from './dto/signin-auth.dto';
 import { RequestUser } from './interfaces/request-user.interface';
+import { RoleName } from '../generated/prisma/enums';
 
 @Injectable()
 export class AuthService {
@@ -51,7 +52,7 @@ export class AuthService {
       },
     });
 
-    const { accessToken, refreshToken } = await this.generateTokens(newUser.id, newUser.email);
+    const { accessToken, refreshToken } = await this.generateTokens(newUser.id, newUser.email, newUser.role);
     await this.storeRefreshToken(newUser.id, refreshToken);
 
     return {
@@ -78,7 +79,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid password');
     }
 
-    const { accessToken, refreshToken } = await this.generateTokens(user.id, user.email);
+    const { accessToken, refreshToken } = await this.generateTokens(user.id, user.email, user.role);
     await this.storeRefreshToken(user.id, refreshToken);
 
     return {
@@ -112,7 +113,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
-    const tokens = await this.generateTokens(existingUser.id, existingUser.email);
+    const tokens = await this.generateTokens(existingUser.id, existingUser.email, existingUser.role);
     const hashedRefreshToken = await hashData(tokens.refreshToken);
     const rotation = await this.prisma.user.updateMany({
       where: { id: existingUser.id, refreshTokenHash: existingUser.refreshTokenHash },
@@ -148,8 +149,8 @@ export class AuthService {
     });
   }
 
-  private async generateTokens(userId: string, email: string): Promise<AuthTokens> {
-    const payload = { sub: userId, email };
+  private async generateTokens(userId: string, email: string, role: RoleName): Promise<AuthTokens> {
+    const payload = { sub: userId, email, role };
 
     const accessToken = await this.jwtService.signAsync({ ...payload, tokenType: TokenType.ACCESS }, {
       secret: this.configService.get("ACCESS_TOKEN_SECRET"),
