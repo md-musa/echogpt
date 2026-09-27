@@ -50,3 +50,22 @@ model Subscription {
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 }
+
+enum ProviderType {
+  OPENAI
+  ANTHROPIC
+  GEMINI
+}
+
+model AiProvider {
+  id           String       @id @default(uuid())
+  type         ProviderType
+  name         String
+  encryptedKey String
+  keyPreview   String
+  defaultModel String
+  isEnabled    Boolean      @default(true)
+  isDefault    Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
