@@ -37,6 +37,11 @@ export class AuthService {
         password: hashedPassword,
         email,
         name,
+        subscription: {
+          create: {
+            plan: 'FREE', status: "ACTIVE"
+          }
+        },
       },
       select: {
         id: true,
