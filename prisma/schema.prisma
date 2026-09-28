@@ -101,3 +101,13 @@ model Message {
 
   @@index([conversationId, createdAt])
 }
+
+model ApiUsageLog {
+  id         String   @id @default(uuid())
+  userId     String
+  endpoint   String
+  statusCode Int
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
