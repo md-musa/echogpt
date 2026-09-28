@@ -34,6 +34,21 @@ export class ProvidersService {
     });
   }
 
+  findForChat(id: string) {
+    return this.prisma.aiProvider.findUnique({
+      where: { id },
+      select: { id: true, type: true, defaultModel: true, isEnabled: true },
+    });
+  }
+
+  async getDecryptedKey(id: string) {
+    const provider = await this.prisma.aiProvider.findUniqueOrThrow({
+      where: { id },
+      select: { encryptedKey: true },
+    });
+    return decrypt(provider.encryptedKey);
+  }
+
   async findOne(id: string) {
     const provider = await this.prisma.aiProvider.findUniqueOrThrow({ where: { id } });
     return this.toSafeProvider(provider);

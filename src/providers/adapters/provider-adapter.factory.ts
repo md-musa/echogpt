@@ -17,7 +17,7 @@ export class ProviderAdapterFactory {
             case 'OPENAI': return this.openai;
             case 'ANTHROPIC':
             case 'GEMINI':
-                throw new NotImplementedException('Provider health checks use checkProviderHealth');
+                throw new NotImplementedException(`Chat is not implemented for ${type}`);
         }
     }
 }
