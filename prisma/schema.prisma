@@ -13,16 +13,17 @@ enum RoleName {
 }
 
 model User {
-  id               String        @id @default(uuid())
-  email            String        @unique
+  id               String         @id @default(uuid())
+  email            String         @unique
   password         String
   name             String
-  isEmailVerified  Boolean       @default(false)
-  role             RoleName      @default(USER)
+  isEmailVerified  Boolean        @default(false)
+  role             RoleName       @default(USER)
   refreshTokenHash String?
   subscription     Subscription?
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  conversations    Conversation[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   deletedAt        DateTime?
 }
 
@@ -58,14 +59,45 @@ enum ProviderType {
 }
 
 model AiProvider {
-  id           String       @id @default(uuid())
-  type         ProviderType
-  name         String
-  encryptedKey String
-  keyPreview   String
-  defaultModel String
-  isEnabled    Boolean      @default(true)
-  isDefault    Boolean      @default(false)
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id            String         @id @default(uuid())
+  type          ProviderType
+  name          String
+  encryptedKey  String
+  keyPreview    String
+  defaultModel  String
+  isEnabled     Boolean        @default(true)
+  isDefault     Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  conversations Conversation[]
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+model Conversation {
+  id         String     @id @default(uuid())
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  providerId String
+  provider   AiProvider @relation(fields: [providerId], references: [id])
+  title      String?
+  createdAt  DateTime   @default(now())
+
+  messages Message[]
+
+  @@index([userId, createdAt])
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           MessageRole
+  content        String
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
 }
