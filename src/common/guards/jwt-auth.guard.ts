@@ -1,1 +1,1 @@
-export { AccessTokenGuard as JwtAuthGuard } from '../../auth/guards/access-token.guard';
+export { AccessTokenGuard as JwtAuthGuard } from '../../modules/auth/guards/access-token.guard';

@@ -3,11 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from "@nestjs/config";
 import { PrismaModule } from './prisma/prisma.module';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { SubscriptionsModule } from './subscriptions/subscriptions.module';
-import { ProvidersModule } from './providers/providers.module';
-import { ChatsModule } from './chats/chats.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { ProvidersModule } from './modules/providers/providers.module';
+import { ChatsModule } from './modules/chats/chats.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { ChatsModule } from './chats/chats.module';
     UsersModule,
     SubscriptionsModule,
     ProvidersModule,
-    ChatsModule
+    ChatsModule,
+    AdminModule
   ],
   controllers: [AppController],
   providers: [AppService],

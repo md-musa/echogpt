@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import type { Request } from 'express';
-import { RequestUser } from '../../auth/interfaces/request-user.interface';
+import { RequestUser } from '../../modules/auth/interfaces/request-user.interface';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
 type AuthenticatedRequest = Request & { user?: RequestUser };

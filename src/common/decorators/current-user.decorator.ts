@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import type { Request } from 'express';
-import { RequestUser } from '../../auth/interfaces/request-user.interface';
+import { RequestUser } from '../../modules/auth/interfaces/request-user.interface';
 
 type AuthenticatedRequest = Request & { user?: RequestUser };
 
