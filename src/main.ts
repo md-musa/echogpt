@@ -4,10 +4,12 @@ import { GlobalExceptionFilter } from './common/global-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.use(helmet());
   app.enableCors();
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.use(cookieParser());

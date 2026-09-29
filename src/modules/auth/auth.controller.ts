@@ -60,8 +60,6 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response
   ): Promise<AuthTokensResponse> {
 
-    console.log('req.user:', req.user);
-
     const { accessToken, refreshToken, user } = await this.authService.generateRefreshToken(req.user);
 
     setTokenInCookies(res, refreshToken);
