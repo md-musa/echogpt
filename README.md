@@ -4,9 +4,9 @@ Backend REST API for the EchoGPT Chrome Extension assignment, built with NestJS,
 
 ## Quick Note
 
-- Kept the scope focused on getting the core features solid rather than spreading across everything.
-- I don't currently have a debit/credit card to sign up for OpenAI/Anthropic/Gemini's API access, so the AI provider integration runs in mock mode (`USE_MOCK_PROVIDERS=true` in `.env`).
-- The real provider calls are already written in code — mock mode only swaps out the actual HTTP request; provider selection, chat, and usage limits all work the same either way.
+- Kept the scope focused on core features instead of spreading thin.
+- I don't have a debit or credit card to sign up for OpenAI, Anthropic, or Gemini API access. So the AI provider integration runs in mock mode. Set `USE_MOCK_PROVIDERS=true` in `.env` to use it.
+- The real provider calls are already written in code. Mock mode only replaces the actual HTTP request. Provider selection, chat, and usage limits all work the same either way.
 
 ## Project Setup
 
